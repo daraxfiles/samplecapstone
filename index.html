@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Riverbend Literacy Collective · Sample Capstone Site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1d2a30; --muted:#4a5a62; --teal:#1f5566; --teal-dark:#163f4c; --teal-soft:#e3eef0;
+    --cream:#fbf8f2; --sand:#f1eadc; --gold:#b5651d; --line:#d9d2c3; --white:#fff;
+    --radius:10px; --max:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;font-size:18px;line-height:1.65;color:var(--ink);background:var(--cream)}
+  h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;line-height:1.2;color:var(--ink);margin:0 0 .5em}
+  h1{font-size:clamp(2rem,4.5vw,3rem)} h2{font-size:clamp(1.5rem,3vw,2rem)} h3{font-size:1.25rem}
+  p{margin:0 0 1em} a{color:var(--teal)} a:hover{color:var(--teal-dark)}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+  [tabindex="-1"]:focus{outline:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:6px;z-index:100}
+  .skip:focus{left:12px}
+
+  /* sample banner */
+  .sample{background:var(--ink);color:#e9eef0;font-size:14px;text-align:center;padding:8px 16px}
+  .sample strong{color:#fff}
+
+  /* header */
+  header.site{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+  .bar{display:flex;align-items:center;gap:24px;min-height:76px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:19px}
+  .brand svg{flex:0 0 40px}
+  nav.primary{margin-left:auto}
+  nav.primary ul{list-style:none;margin:0;padding:0;display:flex;gap:6px;align-items:center}
+  nav.primary a{display:block;text-decoration:none;color:var(--ink);font-weight:600;font-size:16px;padding:8px 12px;border-radius:6px}
+  nav.primary a:hover{background:var(--teal-soft)}
+  nav.primary a[aria-current="page"]{color:var(--teal);box-shadow:inset 0 -3px 0 var(--teal)}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;font-size:17px;padding:13px 24px;border-radius:8px;border:2px solid var(--teal);cursor:pointer;font-family:inherit}
+  .btn.primary{background:var(--teal);color:#fff} .btn.primary:hover{background:var(--teal-dark);border-color:var(--teal-dark);color:#fff}
+  .btn.secondary{background:transparent;color:var(--teal)} .btn.secondary:hover{background:var(--teal-soft)}
+  nav.primary .btn{padding:9px 18px;font-size:15px;margin-left:8px;color:#fff}
+  .menu-toggle{display:none;margin-left:auto;background:none;border:2px solid var(--line);border-radius:8px;padding:8px 14px;font:600 16px "Source Sans 3",sans-serif;color:var(--ink);cursor:pointer}
+
+  /* sections */
+  main section{padding:64px 0}
+  .hero{background:var(--sand);padding:72px 0}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+  .lede{font-size:21px;color:var(--muted);max-width:52ch}
+  .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+  .page-head{background:var(--sand);padding:52px 0 40px}
+  .page-head p{font-size:20px;color:var(--muted);max-width:60ch;margin:0}
+  .crumb{font-size:15px;color:var(--muted);margin-bottom:10px}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column}
+  .card p{color:var(--muted)} .card .more{margin-top:auto;font-weight:700}
+  .tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+
+  .impact{background:var(--teal);color:#fff}
+  .impact h2{color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+  .stat b{display:block;font-family:"Source Serif 4",serif;font-size:42px;line-height:1.1}
+  .stat span{font-size:16px;color:#d8e8ec}
+
+  .split{display:grid;grid-template-columns:1.4fr 1fr;gap:28px}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+  blockquote{margin:0;font-family:"Source Serif 4",serif;font-size:21px;line-height:1.5}
+  .cite{display:block;margin-top:14px;font-size:16px;color:var(--muted);font-family:"Source Sans 3",sans-serif}
+  .events{list-style:none;margin:0;padding:0}
+  .events li{display:flex;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .events li:last-child{border-bottom:0}
+  .date{flex:0 0 64px;text-align:center;background:var(--teal-soft);border-radius:8px;padding:6px 0;font-weight:700;color:var(--teal-dark);line-height:1.2;font-size:14px}
+  .date b{display:block;font-size:22px}
+
+  .prose{max-width:72ch}
+  .prose h2{margin-top:1.6em} .prose h2:first-child{margin-top:0}
+  .two-col{display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start}
+  .aside{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:var(--radius);padding:24px}
+  .aside h2{font-size:1.25rem}
+
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0}
+  ol.steps>li{counter-increment:s;position:relative;padding:0 0 28px 72px}
+  ol.steps>li::before{content:counter(s);position:absolute;left:0;top:0;width:48px;height:48px;border-radius:50%;background:var(--teal);color:#fff;font:700 22px/48px "Source Serif 4",serif;text-align:center}
+  ol.steps h3{margin-bottom:.3em}
+
+  table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:0 0 1.2em}
+  caption{text-align:left;font-weight:700;padding:0 0 8px}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--teal-soft);color:var(--teal-dark)}
+
+  .tip{background:var(--teal-soft);border-radius:var(--radius);padding:20px 24px;margin:1.2em 0}
+  .tip strong{color:var(--teal-dark)}
+
+  details{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px}
+  summary{cursor:pointer;padding:18px 22px;font-weight:700;font-size:19px;list-style-position:inside}
+  details>div{padding:0 22px 18px}
+
+  form .field{margin-bottom:18px}
+  label{display:block;font-weight:700;margin-bottom:6px}
+  .hint{display:block;font-weight:400;font-size:15px;color:var(--muted)}
+  input,select,textarea{width:100%;font:inherit;padding:12px 14px;border:2px solid #8a9aa1;border-radius:8px;background:#fff;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+  .notice{background:#eef6ea;border:2px solid #4f7a3a;border-radius:8px;padding:14px 18px;margin-top:16px}
+
+  footer.site{background:var(--ink);color:#dfe6e9;padding:52px 0 28px;font-size:16px}
+  footer.site h2{color:#fff;font-size:17px;font-family:"Source Sans 3",sans-serif;margin-bottom:12px}
+  footer.site a{color:#fff}
+  .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+  .fgrid ul{list-style:none;margin:0;padding:0} .fgrid li{margin-bottom:8px}
+  .fine{border-top:1px solid #3d4c53;margin-top:36px;padding-top:20px;font-size:14px;color:#b9c5ca}
+
+  [hidden]{display:none!important}
+
+  @media (max-width:900px){
+    .menu-toggle{display:block}
+    nav.primary{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:12px 24px 20px}
+    nav.primary.open{display:block}
+    nav.primary ul{flex-direction:column;align-items:stretch}
+    nav.primary .btn{margin:8px 0 0;text-align:center}
+    .bar{position:relative}
+    .hero-grid,.split,.two-col{grid-template-columns:1fr}
+    .cards{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .fgrid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="sample" role="note"><strong>Sample capstone site</strong> for ETEC 52103. Riverbend Literacy Collective is a fictional organization.</div>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="#home" aria-label="Riverbend Literacy Collective, home">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#1f5566"/><path d="M9 13c4-1.5 8-1 11 1.5 3-2.5 7-3 11-1.5v15c-4-1.5-8-1-11 1.5-3-2.5-7-3-11-1.5z" fill="#fbf8f2"/><path d="M20 14.5v15" stroke="#1f5566" stroke-width="1.5"/></svg>
+      Riverbend Literacy Collective
+    </a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+    <nav class="primary" id="primary-nav" aria-label="Main">
+      <ul>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#get-started">Get Started</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#volunteer">Volunteer</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a class="btn primary" href="#volunteer" data-focus="donate">Donate</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- ============ HOME ============ -->
+<div data-page="home" data-title="Home">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Every adult deserves to read with confidence.</h1>
+        <p class="lede">Free, friendly reading and writing classes for adults in Riverbend County. Learn at your own pace, with a tutor who's on your side.</p>
+        <div class="actions">
+          <a class="btn primary" href="#get-started">Find a free class</a>
+          <a class="btn secondary" href="#volunteer">Become a tutor</a>
+        </div>
+      </div>
+      <svg viewBox="0 0 420 320" role="img" aria-labelledby="hero-img-t">
+        <title id="hero-img-t">Illustration of an adult learner and a tutor reading an open book together at a table.</title>
+        <rect x="0" y="0" width="420" height="320" rx="16" fill="#e3eef0"/>
+        <rect x="40" y="230" width="340" height="14" rx="7" fill="#1f5566"/>
+        <circle cx="130" cy="110" r="34" fill="#b5651d"/><rect x="88" y="148" width="84" height="84" rx="30" fill="#1f5566"/>
+        <circle cx="290" cy="116" r="30" fill="#6b4a3a"/><rect x="252" y="150" width="76" height="80" rx="28" fill="#4a7a6a"/>
+        <path d="M150 222c22-10 40-9 60 2 20-11 38-12 60-2v-40c-22-10-40-9-60 2-20-11-38-12-60-2z" fill="#fff" stroke="#1d2a30" stroke-width="3"/>
+        <path d="M210 184v40" stroke="#1d2a30" stroke-width="3"/>
+        <path d="M165 196h32M165 206h28M223 196h32M223 206h28" stroke="#8a9aa1" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What you can do here</h2>
+      <p class="lede" style="margin-bottom:32px">Start with whichever one fits you today.</p>
+      <div class="cards">
+        <div class="card"><span class="tag">Learn</span><h3>Join a reading class</h3><p>Small groups and one-on-one tutoring, mornings, evenings, and Saturdays. No tests to get in, and it's always free.</p><a class="more" href="#programs">Compare our programs</a></div>
+        <div class="card"><span class="tag">Start</span><h3>Take your first step</h3><p>See exactly what happens at your first visit, what to bring, and how we match you with a tutor.</p><a class="more" href="#get-started">Read the getting-started guide</a></div>
+        <div class="card"><span class="tag">Practice</span><h3>Practice at home</h3><p>Simple strategies for reading new words, plus practice materials for everyday reading like forms and labels.</p><a class="more" href="#resources">Browse learning resources</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="impact" aria-labelledby="impact-h">
+    <div class="wrap">
+      <h2 id="impact-h" style="text-align:center;margin-bottom:32px">Our learners this year</h2>
+      <div class="stats">
+        <div class="stat"><b>412</b><span>adult learners</span></div>
+        <div class="stat"><b>96</b><span>volunteer tutors</span></div>
+        <div class="stat"><b>6</b><span>library locations</span></div>
+        <div class="stat"><b>$0</b><span>cost to learners</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div class="panel">
+        <h2>Learner story</h2>
+        <blockquote>"I used to ask my daughter to read my mail. Now I read her bedtime stories. My tutor never once made me feel slow."</blockquote>
+        <span class="cite">Denise, Evening Reading Group, two years</span>
+      </div>
+      <div class="panel">
+        <h2>Upcoming events</h2>
+        <ul class="events">
+          <li><span class="date">DEC<b>3</b></span><span>New learner welcome night, Main Library</span></li>
+          <li><span class="date">DEC<b>10</b></span><span>Tutor training, part 1 (online)</span></li>
+          <li><span class="date">JAN<b>8</b></span><span>Winter classes begin at all locations</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PROGRAMS ============ -->
+<div data-page="programs" data-title="About the Learning Program" hidden>
+  <div class="page-head"><div class="wrap"><p class="crumb">Home / Programs</p><h1>About the learning program</h1><p>Three ways to learn. All are free, all are confidential, and you can switch at any time.</p></div></div>
+  <section>
+    <div class="wrap two-col">
+      <div class="prose">
+        <h2>How our classes work</h2>
+        <p>Every learner gets a short, relaxed conversation with a coordinator first. There is no test to pass. We talk about what you want to read or write, like a work form, a driver's manual, or a book for your grandkids, and then we suggest the program that fits.</p>
+        <table>
+          <caption>Our three programs</caption>
+          <thead><tr><th scope="col">Program</th><th scope="col">Best for</th><th scope="col">When</th></tr></thead>
+          <tbody>
+            <tr><td><strong>One-on-one tutoring</strong></td><td>Beginning readers, or anyone who wants privacy</td><td>You and your tutor choose, 2 hours a week</td></tr>
+            <tr><td><strong>Evening reading group</strong></td><td>Learners who enjoy a small group of 4 to 6</td><td>Tuesdays and Thursdays, 6:00 to 7:30 p.m.</td></tr>
+            <tr><td><strong>Saturday writing lab</strong></td><td>Writing emails, letters, and job applications</td><td>Saturdays, 10:00 a.m. to noon</td></tr>
+          </tbody>
+        </table>
+        <h2>What you'll learn</h2>
+        <ul>
+          <li>Sounding out and recognizing new words</li>
+          <li>Understanding what you read, from signs to stories</li>
+          <li>Filling out forms and writing short messages</li>
+          <li>Reading with children in your life</li>
+        </ul>
+        <p>Ready to try? The <a href="#get-started">getting-started guide</a> walks you through your first visit.</p>
+      </div>
+      <aside class="aside" aria-labelledby="where-h">
+        <h2 id="where-h">Where we meet</h2>
+        <p>All classes are held in public libraries in Riverbend County. Every location is wheelchair accessible and near a bus stop.</p>
+        <p><a href="#contact">Ask about the location nearest you</a></p>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<!-- ============ GET STARTED ============ -->
+<div data-page="get-started" data-title="Getting Started" hidden>
+  <div class="page-head"><div class="wrap"><p class="crumb">Home / Get Started</p><h1>Your first class, step by step</h1><p>Here's exactly what happens, so there are no surprises. Most people are reading with a tutor within two weeks.</p></div></div>
+  <section>
+    <div class="wrap two-col">
+      <div>
+        <ol class="steps">
+          <li><h3>Reach out</h3><p>Call us, text us, or fill out the short <a href="#contact">contact form</a>. You can also ask a friend or family member to contact us for you.</p></li>
+          <li><h3>Have a welcome chat</h3><p>A coordinator meets with you for about 30 minutes, in person or by phone. You'll talk about your goals and your schedule. This is a conversation, not a test.</p></li>
+          <li><h3>Get matched</h3><p>Within one week, we match you with a tutor or a group based on your goals, your schedule, and the library that's easiest for you to reach.</p></li>
+          <li><h3>Go to your first session</h3><p>Your tutor will meet you at the library's front desk. Your first session is mostly getting to know each other and picking something you want to read.</p></li>
+          <li><h3>Keep going at your pace</h3><p>Every few months, you and your tutor look back at your progress and set a new goal. There's no deadline and no final exam.</p></li>
+        </ol>
+      </div>
+      <aside class="aside" aria-labelledby="bring-h">
+        <h2 id="bring-h">What to bring</h2>
+        <ul>
+          <li>Nothing is required</li>
+          <li>Glasses, if you use them</li>
+          <li>Anything you want help reading, like mail or a work form</li>
+        </ul>
+        <p><strong>You do not need:</strong> an ID, proof of address, or immigration papers.</p>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<!-- ============ RESOURCES ============ -->
+<div data-page="resources" data-title="Learning Resources" hidden>
+  <div class="page-head"><div class="wrap"><p class="crumb">Home / Resources</p><h1>Learning resources</h1><p>Practice between classes with these short, simple strategies. Try one at a time.</p></div></div>
+  <section>
+    <div class="wrap prose">
+      <h2>Four ways to figure out a new word</h2>
+      <p>When you get stuck on a word, try these in order. Most of the time, one of them will work.</p>
+      <ol>
+        <li><strong>Look for a part you know.</strong> In "careful," you may already know "care."</li>
+        <li><strong>Say the first sound, then guess.</strong> Use the sentence to help you guess a word that makes sense.</li>
+        <li><strong>Read to the end of the sentence.</strong> The words after the hard word often give you a clue.</li>
+        <li><strong>Break it into chunks.</strong> "Appointment" becomes ap-point-ment.</li>
+      </ol>
+      <div class="tip"><strong>Tip:</strong> It's fine to skip a word and come back. Good readers do it all the time.</div>
+
+      <h2>Practice with everyday reading</h2>
+      <p>The best practice material is something you actually need to read. This chart shows what to look for first on common items.</p>
+      <table>
+        <caption>Where to look first</caption>
+        <thead><tr><th scope="col">What you're reading</th><th scope="col">Look for this first</th></tr></thead>
+        <tbody>
+          <tr><td>Medicine label</td><td>"Directions" and "Warnings"</td></tr>
+          <tr><td>Bill or letter</td><td>The amount due and the date it's due</td></tr>
+          <tr><td>Job application</td><td>Words in bold, and any box marked "required"</td></tr>
+          <tr><td>Bus schedule</td><td>Your stop name, then the times in that row</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Reading with children</h2>
+      <svg viewBox="0 0 600 160" role="img" aria-labelledby="kids-t" style="width:100%;max-width:600px;margin:0 0 1em">
+        <title id="kids-t">Three steps for reading with a child: look at the pictures, read together, then talk about the story.</title>
+        <rect width="600" height="160" rx="12" fill="#e3eef0"/>
+        <g font-family="Source Sans 3, sans-serif" font-size="18" font-weight="700" fill="#1d2a30" text-anchor="middle">
+          <circle cx="100" cy="64" r="34" fill="#1f5566"/><text x="100" y="72" fill="#fff" font-size="24">1</text><text x="100" y="130">Look at pictures</text>
+          <circle cx="300" cy="64" r="34" fill="#1f5566"/><text x="300" y="72" fill="#fff" font-size="24">2</text><text x="300" y="130">Read together</text>
+          <circle cx="500" cy="64" r="34" fill="#1f5566"/><text x="500" y="72" fill="#fff" font-size="24">3</text><text x="500" y="130">Talk about it</text>
+        </g>
+        <path d="M150 64h100M350 64h100" stroke="#b5651d" stroke-width="4" stroke-dasharray="8 8"/>
+      </svg>
+      <p>You don't have to read every word to share a book. Talking about the pictures and asking "What do you think happens next?" builds reading skills for both of you.</p>
+      <p>Free children's books are available at every Riverbend library. <a href="#contact">Ask us which library has the family reading corner</a>.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ FAQ ============ -->
+<div data-page="faq" data-title="Frequently Asked Questions" hidden>
+  <div class="page-head"><div class="wrap"><p class="crumb">Home / FAQ</p><h1>Frequently asked questions</h1><p>Select a question to see the answer.</p></div></div>
+  <section>
+    <div class="wrap prose">
+      <details><summary>Is it really free?</summary><div><p>Yes. Classes, books, and materials are always free. We're funded by donations and local grants.</p></div></details>
+      <details><summary>Will anyone find out I'm taking classes?</summary><div><p>No. Everything you tell us is private. We never share your name or information with employers, landlords, or government agencies.</p></div></details>
+      <details><summary>I'm learning English. Is this for me?</summary><div><p>Our classes are for adults who speak English but want to read and write it better. If you're new to English, we'll connect you with a free English class at a partner organization.</p></div></details>
+      <details><summary>What if I miss a class?</summary><div><p>That's okay. Just let your tutor know when you can. Life happens, and your spot is safe.</p></div></details>
+      <details><summary>Can someone come with me to the first visit?</summary><div><p>Of course. Many learners bring a friend or family member for support.</p></div></details>
+      <p style="margin-top:24px">Still have a question? <a href="#contact">Contact our learner coordinator</a>.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ VOLUNTEER ============ -->
+<div data-page="volunteer" data-title="Volunteer and Donate" hidden>
+  <div class="page-head"><div class="wrap"><p class="crumb">Home / Volunteer</p><h1>Volunteer and donate</h1><p>Our tutors are neighbors who give two hours a week. Our donors keep every class free.</p></div></div>
+  <section>
+    <div class="wrap split">
+      <div class="panel">
+        <h2>Become a tutor</h2>
+        <p>You don't need teaching experience. You need patience, kindness, and two hours a week.</p>
+        <ul>
+          <li>Complete two free training sessions (online or in person)</li>
+          <li>Commit to six months with your learner</li>
+          <li>Get ongoing support from our coordinators</li>
+        </ul>
+        <p>Next training: <strong>December 10</strong>, online.</p>
+        <a class="btn primary" href="#contact">Sign up for tutor training</a>
+      </div>
+      <div class="panel" id="donate" tabindex="-1">
+        <h2>Donate</h2>
+        <table>
+          <caption>What your gift provides</caption>
+          <tbody>
+            <tr><th scope="row">$25</th><td>A set of books for one learner</td></tr>
+            <tr><th scope="row">$100</th><td>Training for one new tutor</td></tr>
+            <tr><th scope="row">$500</th><td>A full year of classes for one learner</td></tr>
+          </tbody>
+        </table>
+        <p>This is a sample site, so online giving isn't set up. A real site would link to the organization's donation page here.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<div data-page="contact" data-title="Contact and Support" hidden>
+  <div class="page-head"><div class="wrap"><p class="crumb">Home / Contact</p><h1>Contact and support</h1><p>Reach us however is easiest for you. A real person answers every message within one business day.</p></div></div>
+  <section>
+    <div class="wrap two-col">
+      <form id="contact-form" novalidate aria-labelledby="form-h">
+        <h2 id="form-h">Send us a message</h2>
+        <div class="field"><label for="name">Your first name</label><input id="name" name="name" autocomplete="given-name" required aria-describedby="name-err"><span id="name-err" class="hint" role="alert"></span></div>
+        <div class="field"><label for="reach">Best way to reach you <span class="hint">A phone number or email address</span></label><input id="reach" name="reach" required aria-describedby="reach-err"><span id="reach-err" class="hint" role="alert"></span></div>
+        <div class="field"><label for="topic">I'm interested in</label>
+          <select id="topic" name="topic"><option>Taking a class</option><option>Becoming a tutor</option><option>Donating</option><option>Something else</option></select></div>
+        <div class="field"><label for="msg">Message <span class="hint">Optional</span></label><textarea id="msg" name="msg" rows="4"></textarea></div>
+        <button class="btn primary" type="submit">Send message</button>
+        <div id="form-status" role="status" aria-live="polite"></div>
+      </form>
+      <aside class="aside" aria-labelledby="direct-h">
+        <h2 id="direct-h">Contact us directly</h2>
+        <p><strong>Learner coordinator</strong><br>Maria Torres</p>
+        <p><strong>Phone or text:</strong><br>(555) 014-2200</p>
+        <p><strong>Email:</strong><br>hello@riverbendliteracy.example</p>
+        <p><strong>Office hours:</strong><br>Monday to Friday, 9 a.m. to 5 p.m.</p>
+        <p><strong>Main office:</strong><br>Riverbend Main Library, 2nd floor<br>210 River Street</p>
+      </aside>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div><h2>Contact</h2><ul><li>210 River Street, 2nd floor</li><li>(555) 014-2200</li><li>hello@riverbendliteracy.example</li></ul></div>
+      <div><h2>Get involved</h2><ul><li><a href="#volunteer">Become a tutor</a></li><li><a href="#volunteer" data-focus="donate">Donate</a></li><li><a href="#contact">Partner with us</a></li></ul></div>
+      <div><h2>Learn more</h2><ul><li><a href="#programs">Our programs</a></li><li><a href="#faq">Frequently asked questions</a></li><li><a href="#resources">Learning resources</a></li></ul></div>
+    </div>
+    <p class="fine">© Riverbend Literacy Collective. This is a fictional sample site created for ETEC 52103 Media and Web Design. Names, numbers, and statistics are invented.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var pages = document.querySelectorAll('[data-page]');
+  var navLinks = document.querySelectorAll('nav.primary a:not(.btn)');
+  var nav = document.getElementById('primary-nav');
+  var toggle = document.querySelector('.menu-toggle');
+  var first = true;
+
+  function show(name, focusId){
+    var found = false;
+    pages.forEach(function(p){ var on = p.dataset.page === name; p.hidden = !on; if(on){found=true; document.title = p.dataset.title + ' · Riverbend Literacy Collective';} });
+    if(!found){ return show('home'); }
+    navLinks.forEach(function(a){ if(a.getAttribute('href') === '#'+name){ a.setAttribute('aria-current','page'); } else { a.removeAttribute('aria-current'); } });
+    nav.classList.remove('open'); toggle.setAttribute('aria-expanded','false');
+    if(!first){
+      window.scrollTo(0,0);
+      var target = focusId ? document.getElementById(focusId) : document.querySelector('[data-page="'+name+'"] h1');
+      if(target){ if(!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1'); target.focus({preventScroll:!focusId}); if(focusId) target.scrollIntoView(); }
+    }
+    first = false;
+  }
+  var pendingFocus = null;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[data-focus]'); if(a) pendingFocus = a.dataset.focus;
+  });
+  window.addEventListener('hashchange', function(){
+    var h = location.hash.slice(1);
+    if(h === 'main') return;
+    show(h || 'home', pendingFocus); pendingFocus = null;
+  });
+  document.querySelector('.skip').addEventListener('click', function(e){
+    e.preventDefault(); var m=document.getElementById('main'); m.focus();
+  });
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open'); toggle.setAttribute('aria-expanded', open ? 'true':'false');
+  });
+  show((location.hash.slice(1)) || 'home');
+
+  var form = document.getElementById('contact-form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    [['name','Please enter your first name.'],['reach','Please enter a phone number or email address.']].forEach(function(f){
+      var el = document.getElementById(f[0]), err = document.getElementById(f[0]+'-err');
+      if(!el.value.trim()){ ok=false; err.textContent=f[1]; el.setAttribute('aria-invalid','true'); }
+      else { err.textContent=''; el.removeAttribute('aria-invalid'); }
+    });
+    var status = document.getElementById('form-status');
+    if(!ok){ status.innerHTML=''; form.querySelector('[aria-invalid]').focus(); return; }
+    status.innerHTML = '<div class="notice"><strong>Thanks, '+document.getElementById('name').value.replace(/[<>&"]/g,'')+'.</strong> This is a sample site, so your message was not sent anywhere. On a real site, the coordinator would reply within one business day.</div>';
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>
